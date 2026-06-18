@@ -1,0 +1,52 @@
+.contact {
+  padding: 110px 0;
+  text-align: center;
+  position: relative;
+  background: radial-gradient(
+      circle at 50% 0%,
+      rgba(201, 162, 39, 0.16),
+      transparent 55%
+    ),
+    linear-gradient(135deg, #161616, #0c0c0c);
+  border-top: 1px solid rgba(201, 162, 39, 0.15);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.15);
+}
+
+.contact-inner {
+  max-width: 720px;
+}
+
+.contact-title {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  margin: 10px 0 18px;
+}
+
+.contact-text {
+  color: var(--color-gray);
+  font-size: 1.1rem;
+  margin-bottom: 36px;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Telefone oficial abaixo dos botões */
+.contact-phone {
+  margin-top: 24px;
+  color: var(--color-gray);
+  font-size: 0.98rem;
+}
+
+.contact-phone a {
+  color: var(--color-gold);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.contact-phone a:hover {
+  text-decoration: underline;
+}

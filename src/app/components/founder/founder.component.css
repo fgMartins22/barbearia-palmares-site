@@ -1,0 +1,78 @@
+.founder {
+  background: linear-gradient(180deg, #0c0c0c, #141414);
+}
+
+.founder-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* FOTO */
+.founder-photo {
+  position: relative;
+}
+
+.founder-photo img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  box-shadow: 0 26px 50px rgba(0, 0, 0, 0.55);
+  position: relative;
+  z-index: 1;
+}
+
+/* Brilho dourado sutil atrás da foto */
+.founder-photo-glow {
+  position: absolute;
+  inset: 0;
+  transform: translate(18px, 18px);
+  border-radius: var(--radius);
+  background: linear-gradient(
+    135deg,
+    rgba(201, 162, 39, 0.35),
+    rgba(201, 162, 39, 0)
+  );
+  z-index: 0;
+}
+
+/* TEXTO */
+.founder-content .section-title {
+  margin-bottom: 24px;
+}
+
+.founder-text {
+  color: var(--color-gray);
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+  max-width: 56ch;
+}
+
+.founder-text:last-child {
+  margin-bottom: 0;
+}
+
+/* RESPONSIVO: empilha no mobile, foto em cima */
+@media (max-width: 900px) {
+  .founder-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .founder-photo {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .founder-content {
+    text-align: center;
+  }
+
+  .founder-text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

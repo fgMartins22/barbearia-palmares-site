@@ -1,0 +1,66 @@
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-grid">
+    <!-- MARCA -->
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <!-- Logo oficial em src/assets/images/logo.png (proporção preservada) -->
+        <img
+          class="footer-logo-img"
+          src="assets/images/logo.png"
+          alt="Logo Barbearia Palmares"
+        />
+        <span>{{ nome }}</span>
+      </div>
+      <p>
+        {{ slogan }}.
+      </p>
+      <div class="footer-social">
+        <a
+          [href]="whatsapp"
+          target="_blank"
+          rel="noopener"
+          aria-label="WhatsApp"
+        >
+          <app-brand-icon name="whatsapp"></app-brand-icon> WhatsApp
+        </a>
+        <a
+          [href]="instagram"
+          target="_blank"
+          rel="noopener"
+          aria-label="Instagram"
+        >
+          <app-brand-icon name="instagram"></app-brand-icon> Instagram
+        </a>
+      </div>
+    </div>
+
+    <!-- LINKS RÁPIDOS -->
+    <div class="footer-col">
+      <h4>Links rápidos</h4>
+      <ul>
+        <li *ngFor="let l of links">
+          <a [href]="l.href">{{ l.label }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CONTATO -->
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <p>{{ endereco.rua }}</p>
+      <p>{{ endereco.bairro }} - {{ endereco.cidade }}</p>
+      <p>{{ endereco.cep }}</p>
+      <p>{{ telefone }}</p>
+    </div>
+  </div>
+
+  <!-- COPYRIGHT -->
+  <div class="footer-bottom">
+    <div class="container">
+      <p>
+        © {{ anoAtual }} {{ nome }}. Todos os direitos reservados.
+      </p>
+    </div>
+  </div>
+</footer>

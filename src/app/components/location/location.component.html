@@ -1,0 +1,75 @@
+<!-- LOCALIZAÇÃO -->
+<section id="localizacao" class="section location">
+  <div class="container">
+    <div class="text-center">
+      <span class="section-tag">Onde estamos</span>
+      <h2 class="section-title">Localização</h2>
+      <p class="section-subtitle">
+        Fácil de chegar, na Zona Norte de Porto Alegre. Venha nos visitar!
+      </p>
+    </div>
+
+    <div class="location-grid">
+      <!-- INFORMAÇÕES -->
+      <div class="location-info">
+        <div class="info-item">
+          <span class="info-icone">
+            <svg lucideIcon="map-pin" class="icon"></svg>
+          </span>
+          <div>
+            <h4>Endereço</h4>
+            <!-- [EDITAR] Endereço editável em src/app/data/site-config.ts -->
+            <p>{{ endereco.rua }}</p>
+            <p>{{ endereco.bairro }} • {{ endereco.cidade }}</p>
+            <p class="muted">{{ endereco.cep }}</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <span class="info-icone">
+            <svg lucideIcon="phone" class="icon"></svg>
+          </span>
+          <div>
+            <h4>Telefone</h4>
+            <p>{{ telefone }}</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <span class="info-icone">
+            <svg lucideIcon="clock" class="icon"></svg>
+          </span>
+          <div>
+            <h4>Horário de funcionamento</h4>
+            <p *ngFor="let h of horarios">
+              <strong>{{ h.dia }}:</strong> {{ h.horario }}
+            </p>
+          </div>
+        </div>
+
+        <!-- [EDITAR] Link do Google Maps editável em site-config.ts -->
+        <a
+          class="btn btn-primary"
+          [href]="googleMaps"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg lucideIcon="map-pin" class="icon"></svg> Abrir no Google Maps
+        </a>
+      </div>
+
+      <!-- MAPA (Google Maps incorporado) -->
+      <!-- [EDITAR] Para mudar o local, gere um novo link em "Compartilhar >
+           Incorporar um mapa" no Google Maps e troque o src do iframe abaixo. -->
+      <div class="location-map">
+        <iframe
+          class="map-iframe"
+          title="Mapa - Barbearia Palmares"
+          src="https://maps.google.com/maps?width=600&height=400&hl=en&q=Tv. Américo Silveira, 231 - Cristo Redentor, Porto Alegre - RS, 91360-000, Brazil&t=&z=17&ie=UTF8&iwloc=B&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>

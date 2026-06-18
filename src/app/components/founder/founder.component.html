@@ -1,0 +1,20 @@
+<!-- FUNDADOR -->
+<section id="fundador" class="section founder">
+  <div class="container founder-grid">
+    <!-- FOTO (esquerda no desktop) -->
+    <div class="founder-photo">
+      <!-- [EDITAR] Foto do fundador em src/assets/images/thiago.jpeg -->
+      <img [src]="foto" [alt]="'Foto de ' + nome" />
+      <div class="founder-photo-glow"></div>
+    </div>
+
+    <!-- TEXTO (direita no desktop) -->
+    <div class="founder-content">
+      <span class="section-tag">Fundador</span>
+      <h2 class="section-title">
+        Conheça <span class="gold">{{ nome }}</span>
+      </h2>
+      <p *ngFor="let p of paragrafos" class="founder-text">{{ p }}</p>
+    </div>
+  </div>
+</section>

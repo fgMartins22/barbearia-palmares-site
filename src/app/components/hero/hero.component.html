@@ -1,0 +1,62 @@
+<!-- HERO SECTION -->
+<section id="inicio" class="hero">
+  <div class="container hero-inner">
+    <!-- LOGO EM DESTAQUE (centralizada acima do título) -->
+    <!-- Logo oficial em src/assets/images/logo.png (proporção preservada) -->
+    <img
+      class="hero-logo fade-up"
+      src="assets/images/logo.png"
+      alt="Logo Barbearia Palmares"
+    />
+
+    <span class="section-tag fade-up delay-1"
+      >Barbearia Palmares • Zona Norte • Porto Alegre</span
+    >
+
+    <h1 class="hero-title fade-up delay-1">
+      Estilo, tradição e <span class="gold">cuidado</span> em cada corte
+    </h1>
+
+    <!-- Slogan oficial -->
+    <p class="hero-slogan fade-up delay-1">“{{ slogan }}”</p>
+
+    <p class="hero-subtitle fade-up delay-2">
+      Atendimento de qualidade na Zona Norte de Porto Alegre. Aqui você
+      encontra profissionais experientes, ambiente confortável e aquele
+      capricho que faz a diferença no seu visual.
+    </p>
+
+    <!-- BOTÕES -->
+    <div class="hero-actions fade-up delay-2">
+      <a
+        class="btn btn-primary"
+        [href]="whatsapp"
+        target="_blank"
+        rel="noopener"
+      >
+        <app-brand-icon name="whatsapp"></app-brand-icon> Agendar pelo WhatsApp
+      </a>
+      <a class="btn btn-ghost" [href]="instagram" target="_blank" rel="noopener">
+        <app-brand-icon name="instagram"></app-brand-icon> Ver Instagram
+      </a>
+    </div>
+
+    <!-- MINI INDICADORES -->
+    <div class="hero-stats fade-up delay-3">
+      <div class="stat">
+        <strong>+10</strong>
+        <span>anos de tradição</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <strong>+5 mil</strong>
+        <span>cortes realizados</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <strong>5.0</strong>
+        <span>avaliação dos clientes</span>
+      </div>
+    </div>
+  </div>
+</section>

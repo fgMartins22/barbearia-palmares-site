@@ -1,0 +1,82 @@
+.testimonials {
+  background: linear-gradient(180deg, #141414, #0c0c0c);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 54px;
+}
+
+.testimonial-card {
+  position: relative;
+  padding: 38px 30px;
+  overflow: hidden;
+}
+
+.quote-mark {
+  position: absolute;
+  top: -10px;
+  right: 18px;
+  font-family: var(--font-title);
+  font-size: 6rem;
+  color: rgba(201, 162, 39, 0.12);
+  line-height: 1;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.stars .star {
+  width: 18px;
+  height: 18px;
+  color: var(--color-gold);
+  fill: none;
+}
+
+.stars .star.star-filled {
+  fill: var(--color-gold);
+}
+
+.testimonial-text {
+  color: var(--color-gray);
+  font-size: 1rem;
+  margin-bottom: 26px;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+}
+
+.testimonial-author span {
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+}

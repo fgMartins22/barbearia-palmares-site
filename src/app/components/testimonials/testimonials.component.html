@@ -1,0 +1,32 @@
+<!-- DEPOIMENTOS -->
+<section id="depoimentos" class="section testimonials">
+  <div class="container">
+    <div class="text-center">
+      <span class="section-tag">Depoimentos</span>
+      <h2 class="section-title">O que dizem nossos clientes</h2>
+      <p class="section-subtitle">
+        A confiança de quem volta sempre é o nosso maior orgulho.
+      </p>
+    </div>
+
+    <!-- CARDS DE DEPOIMENTO -->
+    <div class="testimonials-grid">
+      <article class="testimonial-card card" *ngFor="let d of depoimentos">
+        <div class="quote-mark">”</div>
+        <div class="stars">
+          <svg
+            lucideIcon="star"
+            class="star"
+            *ngFor="let cheia of estrelas(d.nota)"
+            [class.star-filled]="cheia"
+          ></svg>
+        </div>
+        <p class="testimonial-text">{{ d.texto }}</p>
+        <div class="testimonial-author">
+          <div class="avatar">{{ d.nome.charAt(0) }}</div>
+          <span>{{ d.nome }}</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

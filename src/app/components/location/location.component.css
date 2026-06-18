@@ -1,0 +1,88 @@
+.location {
+  background: var(--color-black);
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 54px;
+  align-items: stretch;
+}
+
+.location-info {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.info-item {
+  display: flex;
+  gap: 16px;
+}
+
+.info-icone {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(201, 162, 39, 0.1);
+  border: 1px solid rgba(201, 162, 39, 0.28);
+}
+
+.info-item h4 {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+.info-item p {
+  color: var(--color-gray);
+  font-size: 0.96rem;
+}
+
+.info-item p strong {
+  color: var(--color-white);
+}
+
+.muted {
+  color: var(--color-gray-dark);
+  font-size: 0.86rem;
+}
+
+.location-info .btn {
+  align-self: flex-start;
+  margin-top: 6px;
+}
+
+/* Mapa incorporado (Google Maps) */
+.location-map {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  min-height: 360px;
+  line-height: 0; /* remove o espaço extra abaixo do iframe */
+}
+
+.map-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  border: 0;
+  display: block;
+  /* leve ajuste de cor para combinar com o tema escuro */
+  filter: grayscale(0.2) contrast(1.05);
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+}

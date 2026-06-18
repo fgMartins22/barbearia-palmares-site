@@ -1,0 +1,38 @@
+<!-- CONTATO / CTA FINAL -->
+<section id="contato" class="contact">
+  <div class="container contact-inner">
+    <span class="section-tag">Bora marcar?</span>
+    <h2 class="contact-title">
+      Pronto para renovar o visual?
+    </h2>
+    <p class="contact-text">
+      Agende seu horário pelo WhatsApp e seja atendido com todo o cuidado que
+      você merece. Estamos te esperando na Barbearia Palmares.
+    </p>
+
+    <div class="contact-actions">
+      <a
+        class="btn btn-primary"
+        [href]="whatsapp"
+        target="_blank"
+        rel="noopener"
+      >
+        <app-brand-icon name="whatsapp"></app-brand-icon> Agendar pelo WhatsApp
+      </a>
+      <a
+        class="btn btn-outline"
+        [href]="instagram"
+        target="_blank"
+        rel="noopener"
+      >
+        <app-brand-icon name="instagram"></app-brand-icon> Seguir no Instagram
+      </a>
+    </div>
+
+    <!-- Telefone oficial (clicável) -->
+    <p class="contact-phone">
+      Ou ligue para
+      <a [href]="'tel:+' + telefoneDigits">{{ telefone }}</a>
+    </p>
+  </div>
+</section>

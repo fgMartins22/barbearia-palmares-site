@@ -1,0 +1,50 @@
+<!-- HEADER FIXO -->
+<header class="header" [class.scrolled]="scrolled">
+  <div class="container header-inner">
+    <!-- LOGO / NOME -->
+    <a href="#inicio" class="logo" (click)="closeMenu()">
+      <!-- Logo oficial em src/assets/images/logo.png (proporção preservada) -->
+      <img class="logo-img" src="assets/images/logo.png" alt="Logo Barbearia Palmares" />
+      <span class="logo-text">{{ nome }}</span>
+    </a>
+
+    <!-- NAVEGAÇÃO CENTRALIZADA (desktop + mobile) -->
+    <nav class="nav" [class.open]="menuOpen">
+      <ul>
+        <li *ngFor="let link of navLinks">
+          <a [href]="link.href" (click)="closeMenu()">{{ link.label }}</a>
+        </li>
+      </ul>
+      <!-- Botão de agendar dentro do menu mobile -->
+      <a
+        class="btn btn-primary nav-cta-mobile"
+        [href]="whatsapp"
+        target="_blank"
+        rel="noopener"
+        (click)="closeMenu()"
+        >Agendar horário</a
+      >
+    </nav>
+
+    <!-- BOTÃO DESTAQUE (desktop) -->
+    <a
+      class="btn btn-primary nav-cta"
+      [href]="whatsapp"
+      target="_blank"
+      rel="noopener"
+      >Agendar horário</a
+    >
+
+    <!-- BOTÃO HAMBÚRGUER (mobile) -->
+    <button
+      class="hamburger"
+      [class.active]="menuOpen"
+      (click)="toggleMenu()"
+      aria-label="Abrir menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>

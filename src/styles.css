@@ -1,0 +1,237 @@
+/* =========================================================
+   ESTILOS GLOBAIS - BARBEARIA PALMARES
+   Aqui ficam as variáveis de cor, fontes e estilos base.
+   Altere as variáveis abaixo para mudar o visual do site.
+   ========================================================= */
+
+:root {
+  /* Paleta principal: preto, dourado, branco e tons escuros */
+  --color-black: #0c0c0c;
+  --color-dark: #161616;
+  --color-dark-2: #1f1f1f;
+  --color-dark-3: #2a2a2a;
+  --color-gold: #c9a227; /* dourado principal */
+  --color-gold-light: #e3c668;
+  --color-gold-soft: #d4af37;
+  --color-white: #ffffff;
+  --color-gray: #b5b5b5;
+  --color-gray-dark: #8a8a8a;
+
+  /* Tipografia */
+  --font-title: 'Bebas Neue', 'Arial Narrow', sans-serif;
+  --font-body: 'Montserrat', 'Segoe UI', sans-serif;
+
+  /* Layout */
+  --max-width: 1200px;
+  --header-height: 96px;
+  --header-height-scrolled: 72px;
+  --radius: 14px;
+  --transition: 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.05;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Container central reutilizável */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Espaçamento padrão das seções */
+.section {
+  padding: 96px 0;
+}
+
+/* Título de seção com detalhe dourado */
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  margin-bottom: 18px;
+}
+
+.section-subtitle {
+  color: var(--color-gray);
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 1.02rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.gold {
+  color: var(--color-gold);
+}
+
+/* ----------------- BOTÕES ----------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  border-radius: 50px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--color-gold);
+  color: var(--color-black);
+}
+
+.btn-primary:hover {
+  background: var(--color-gold-soft);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(201, 162, 39, 0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-white);
+  border-color: var(--color-gold);
+}
+
+.btn-outline:hover {
+  background: var(--color-gold);
+  color: var(--color-black);
+  transform: translateY(-3px);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-3px);
+}
+
+/* ----------------- ÍCONES (Lucide + marcas) -----------------
+   Todos os ícones herdam a cor dourada por padrão e têm tamanho
+   consistente. Ajuste o tamanho base aqui se quiser. */
+.icon {
+  width: 22px;
+  height: 22px;
+  color: var(--color-gold);
+  stroke-width: 2;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+/* Ícone grande usado em cards/seções */
+.icon-lg {
+  width: 34px;
+  height: 34px;
+}
+
+/* Ícone dentro de botões acompanha a cor do texto do botão */
+.btn .icon,
+.btn .brand-icon {
+  width: 18px;
+  height: 18px;
+  color: currentColor;
+}
+
+/* ----------------- CARDS (base reutilizável) -----------------
+   Elevação suave, borda dourada discreta e sombra elegante no hover. */
+.card {
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(201, 162, 39, 0.55);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(201, 162, 39, 0.15);
+}
+
+/* Animação de entrada suave */
+.fade-up {
+  animation: fadeUp 0.7s ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade base */
+@media (max-width: 768px) {
+  .section {
+    padding: 64px 0;
+  }
+}

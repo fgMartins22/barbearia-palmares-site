@@ -1,0 +1,213 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  /* Topo: leve transparência com blur suave para um visual premium */
+  background-color: rgba(12, 12, 12, 0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  /* Borda sempre presente (transparente no topo) para evitar a "linha branca"
+     que piscava quando a borda surgia do nada na transição. Animamos apenas a
+     COR da borda, nunca a sua existência. */
+  border-bottom: 1px solid transparent;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0);
+  /* Transição explícita e suave (sem animar 'height' bruscamente) */
+  transition: background-color 0.35s ease, backdrop-filter 0.35s ease,
+    border-color 0.35s ease, box-shadow 0.35s ease, height 0.35s ease;
+  will-change: background-color, height;
+}
+
+/* Ao rolar: fundo mais sólido, blur mais forte, sombra e borda dourada */
+.header.scrolled {
+  height: var(--header-height-scrolled);
+  background-color: rgba(12, 12, 12, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+  border-bottom-color: rgba(201, 162, 39, 0.28);
+}
+
+/* Layout em 3 colunas: logo | navegação centralizada | CTA.
+   Ocupa a largura total (com respiro nas laterais) para afastar a logo
+   e o botão para os cantos, mantendo o menu bem no centro. */
+.header-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 48px;
+}
+
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-self: start;
+}
+
+.logo-img {
+  height: 52px;
+  width: auto; /* mantém a proporção original da imagem */
+  object-fit: contain;
+  transition: var(--transition);
+}
+
+.header.scrolled .logo-img {
+  height: 42px;
+}
+
+.logo-text {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  letter-spacing: 1.5px;
+  color: var(--color-white);
+  white-space: nowrap;
+}
+
+.logo-text::first-letter {
+  color: var(--color-gold);
+}
+
+/* NAVEGAÇÃO DESKTOP (centralizada) */
+.nav {
+  justify-self: center;
+}
+
+.nav ul {
+  display: flex;
+  gap: 34px;
+}
+
+.nav a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--color-white);
+  position: relative;
+  transition: var(--transition);
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: var(--color-gold);
+  transition: var(--transition);
+}
+
+.nav a:hover {
+  color: var(--color-gold);
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+/* CTA destacado à direita */
+.nav-cta {
+  justify-self: end;
+}
+
+.nav-cta-mobile {
+  display: none;
+}
+
+/* HAMBÚRGUER */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  justify-self: end;
+}
+
+.hamburger span {
+  width: 26px;
+  height: 2px;
+  background: var(--color-white);
+  transition: var(--transition);
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---------------- RESPONSIVO ---------------- */
+@media (max-width: 900px) {
+  .header-inner {
+    grid-template-columns: 1fr auto;
+    padding: 0 20px;
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .logo-img {
+    height: 44px;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+  }
+
+  .nav {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    width: 80%;
+    max-width: 320px;
+    height: calc(100vh - var(--header-height));
+    background: rgba(18, 18, 18, 0.97);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 40px 30px;
+    transform: translateX(110%);
+    transition: transform 0.35s ease;
+    border-left: 1px solid rgba(201, 162, 39, 0.2);
+    display: block;
+  }
+
+  .nav.open {
+    transform: translateX(0);
+  }
+
+  .nav ul {
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  .nav a {
+    font-size: 1.1rem;
+  }
+
+  .nav-cta-mobile {
+    display: inline-flex;
+    margin-top: 36px;
+    width: 100%;
+  }
+}

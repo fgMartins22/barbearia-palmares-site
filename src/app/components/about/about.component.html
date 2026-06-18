@@ -1,0 +1,46 @@
+<!-- SOBRE -->
+<section id="sobre" class="section about">
+  <div class="container">
+    <div class="about-top">
+      <!-- TEXTO DE APRESENTAÇÃO (edite à vontade) -->
+      <div class="about-text">
+        <span class="section-tag">Sobre nós</span>
+        <h2 class="section-title">Mais que um corte, uma tradição</h2>
+        <p>
+          A <strong>Barbearia Palmares</strong> nasceu na Zona Norte de Porto
+          Alegre com um propósito simples: oferecer um atendimento próximo, de
+          confiança e com aquele capricho que o cliente merece.
+        </p>
+        <p>
+          Ao longo dos anos, construímos uma relação de fidelidade com quem
+          passa por aqui. Cada cliente é recebido pelo nome, conhece a equipe e
+          sai com o visual em dia e a sensação de ter sido bem cuidado.
+        </p>
+        <p>
+          Por aqui, <strong>o corte é detalhe e o bom é o café</strong>: você
+          relaxa, toma um cafezinho e ainda sai com o visual impecável.
+        </p>
+      </div>
+
+      <!-- IMAGEM / PLACEHOLDER -->
+      <!-- [EDITAR] Troque por <img src="assets/sobre.jpg"> quando tiver a foto real -->
+      <div class="about-image">
+        <div class="about-image-placeholder">
+          <svg lucideIcon="image" class="icon icon-lg"></svg>
+          <small>Foto da barbearia</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARDS DE DIFERENCIAIS -->
+    <div class="diferenciais-grid">
+      <article class="diferencial-card card" *ngFor="let d of diferenciais">
+        <div class="diferencial-icone">
+          <svg [lucideIcon]="d.icone" class="icon icon-lg"></svg>
+        </div>
+        <h3>{{ d.titulo }}</h3>
+        <p>{{ d.descricao }}</p>
+      </article>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,102 @@
+.about {
+  background: var(--color-black);
+}
+
+.about-top {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 70px;
+}
+
+.about-text p {
+  color: var(--color-gray);
+  margin-bottom: 16px;
+  font-size: 1.02rem;
+}
+
+.about-text strong {
+  color: var(--color-white);
+}
+
+.about-image-placeholder {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--color-dark-2), var(--color-dark));
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--color-gray-dark);
+}
+
+.about-image-placeholder span {
+  font-size: 3.5rem;
+}
+
+.about-image-placeholder .icon {
+  width: 46px;
+  height: 46px;
+}
+
+.about-image-placeholder small {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+/* Cards diferenciais */
+.diferenciais-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.diferencial-card {
+  padding: 38px 28px;
+  text-align: center;
+}
+
+.diferencial-icone {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(201, 162, 39, 0.1);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  transition: var(--transition);
+}
+
+.diferencial-card:hover .diferencial-icone {
+  background: rgba(201, 162, 39, 0.18);
+  transform: scale(1.06);
+}
+
+.diferencial-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: var(--color-white);
+}
+
+.diferencial-card p {
+  color: var(--color-gray);
+  font-size: 0.95rem;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .about-top {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .diferenciais-grid {
+    grid-template-columns: 1fr;
+  }
+}

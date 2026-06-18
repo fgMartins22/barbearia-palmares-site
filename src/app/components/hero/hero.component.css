@@ -1,0 +1,126 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: calc(var(--header-height) + 30px);
+  padding-bottom: 60px;
+  /* Fundo em gradiente escuro. Para usar uma imagem real:
+     adicione url('assets/hero-bg.jpg') antes do gradiente. */
+  background: radial-gradient(
+      circle at 50% 18%,
+      rgba(201, 162, 39, 0.16),
+      transparent 50%
+    ),
+    linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 60%, #0c0c0c 100%);
+  overflow: hidden;
+}
+
+/* Conteúdo centralizado */
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Logo em destaque */
+.hero-logo {
+  height: 170px;
+  width: auto; /* preserva a proporção da logo */
+  object-fit: contain;
+  margin-bottom: 26px;
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.55));
+}
+
+.hero-title {
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  margin: 10px 0 22px;
+  max-width: 16ch;
+}
+
+/* Slogan oficial em dourado */
+.hero-slogan {
+  font-family: var(--font-title);
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  letter-spacing: 1px;
+  color: var(--color-gold);
+  margin-bottom: 24px;
+}
+
+.hero-subtitle {
+  color: var(--color-gray);
+  font-size: 1.12rem;
+  max-width: 620px;
+  margin-bottom: 38px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 54px;
+}
+
+/* Indicadores */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat strong {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 2.2rem;
+  color: var(--color-gold);
+  line-height: 1;
+}
+
+.stat span {
+  font-size: 0.8rem;
+  color: var(--color-gray-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 42px;
+  background: rgba(201, 162, 39, 0.3);
+}
+
+/* Atrasos para uma entrada em cascata */
+.delay-1 {
+  animation-delay: 0.12s;
+}
+.delay-2 {
+  animation-delay: 0.24s;
+}
+.delay-3 {
+  animation-delay: 0.36s;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .hero-logo {
+    height: 120px;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .hero-stats {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
