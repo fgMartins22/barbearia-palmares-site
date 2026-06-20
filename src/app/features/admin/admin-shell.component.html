@@ -1,0 +1,33 @@
+<div class="shell">
+  <!-- MENU LATERAL -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="assets/images/logo.png" alt="Barbearia Palmares" />
+      <span>Palmares</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="view === 'agenda'"
+        (click)="setView('agenda')"
+      >
+        <svg lucideIcon="calendar" class="icon"></svg> Agenda
+      </button>
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="view === 'disponibilidade'"
+        (click)="setView('disponibilidade')"
+      >
+        <svg lucideIcon="clock" class="icon"></svg> Disponibilidade
+      </button>
+    </nav>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="shell-content">
+    <app-barber-dashboard-page *ngIf="view === 'agenda'"></app-barber-dashboard-page>
+    <app-availability-page *ngIf="view === 'disponibilidade'"></app-availability-page>
+  </main>
+</div>

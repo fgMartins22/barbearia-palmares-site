@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { SERVICOS } from '../../data/mock-data';
-import { whatsappLink } from '../../data/site-config';
+import { BookingDialogService } from '../../features/booking/dialog/booking-dialog.service';
 
 @Component({
   selector: 'app-services',
@@ -13,5 +13,11 @@ import { whatsappLink } from '../../data/site-config';
 })
 export class ServicesComponent {
   servicos = SERVICOS;
-  whatsapp = whatsappLink();
+
+  constructor(private bookingDialog: BookingDialogService) {}
+
+  /** Abre direto o agendamento pelo site, com o serviço já selecionado. */
+  agendar(bookingId: string): void {
+    this.bookingDialog.openSite(bookingId);
+  }
 }

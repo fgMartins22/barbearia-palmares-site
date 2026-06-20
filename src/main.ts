@@ -1,4 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import {
   provideLucideIcons,
   LucideScissors,
@@ -14,8 +16,22 @@ import {
   LucideImage,
   LucideChevronLeft,
   LucideChevronRight,
+  LucideCalendar,
+  LucideUser,
+  LucideArrowLeft,
+  LucideCircleCheck,
+  LucideCheck,
+  LucideX,
+  LucideSearch,
+  LucidePlus,
+  LucideTrash2,
+  LucideCheckCheck,
+  LucideRotateCcw,
+  LucideBan,
+  LucideCalendarOff,
 } from '@lucide/angular';
 import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 
 /**
  * Ícones Lucide registrados globalmente.
@@ -25,6 +41,15 @@ import { AppComponent } from './app/app.component';
  */
 bootstrapApplication(AppComponent, {
   providers: [
+    provideAnimations(),
+    provideRouter(
+      routes,
+      // Rola para o topo ao trocar de rota e respeita âncoras (#secao)
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      })
+    ),
     provideLucideIcons(
       LucideScissors,
       LucideScissorsLineDashed,
@@ -38,7 +63,20 @@ bootstrapApplication(AppComponent, {
       LucidePhone,
       LucideImage,
       LucideChevronLeft,
-      LucideChevronRight
+      LucideChevronRight,
+      LucideCalendar,
+      LucideUser,
+      LucideArrowLeft,
+      LucideCircleCheck,
+      LucideCheck,
+      LucideX,
+      LucideSearch,
+      LucidePlus,
+      LucideTrash2,
+      LucideCheckCheck,
+      LucideRotateCcw,
+      LucideBan,
+      LucideCalendarOff
     ),
   ],
 }).catch((err) => console.error(err));

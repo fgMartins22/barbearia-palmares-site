@@ -11,14 +11,9 @@
     </p>
 
     <div class="contact-actions">
-      <a
-        class="btn btn-primary"
-        [href]="whatsapp"
-        target="_blank"
-        rel="noopener"
-      >
-        <app-brand-icon name="whatsapp"></app-brand-icon> Agendar pelo WhatsApp
-      </a>
+      <button type="button" class="btn btn-primary" (click)="agendar()">
+        <svg lucideIcon="calendar" class="icon"></svg> Agendar Agora
+      </button>
       <a
         class="btn btn-outline"
         [href]="instagram"

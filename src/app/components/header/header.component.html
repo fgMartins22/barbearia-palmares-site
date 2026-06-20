@@ -15,25 +15,20 @@
           <a [href]="link.href" (click)="closeMenu()">{{ link.label }}</a>
         </li>
       </ul>
-      <!-- Botão de agendar dentro do menu mobile -->
-      <a
+      <!-- Botão de agendar dentro do menu mobile (abre o modal de agendamento) -->
+      <button
+        type="button"
         class="btn btn-primary nav-cta-mobile"
-        [href]="whatsapp"
-        target="_blank"
-        rel="noopener"
-        (click)="closeMenu()"
-        >Agendar horário</a
+        (click)="agendar()"
       >
+        Agendar Agora
+      </button>
     </nav>
 
     <!-- BOTÃO DESTAQUE (desktop) -->
-    <a
-      class="btn btn-primary nav-cta"
-      [href]="whatsapp"
-      target="_blank"
-      rel="noopener"
-      >Agendar horário</a
-    >
+    <button type="button" class="btn btn-primary nav-cta" (click)="agendar()">
+      Agendar Agora
+    </button>
 
     <!-- BOTÃO HAMBÚRGUER (mobile) -->
     <button

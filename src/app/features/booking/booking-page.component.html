@@ -1,0 +1,216 @@
+<!-- ===================== BARRA SUPERIOR ===================== -->
+<header class="booking-topbar">
+  <a routerLink="/" class="topbar-brand">
+    <img src="assets/images/logo.png" alt="Logo Barbearia Palmares" />
+    <span>{{ nome }}</span>
+  </a>
+  <a routerLink="/" class="topbar-back">
+    <svg lucideIcon="arrow-left" class="icon"></svg> Voltar ao site
+  </a>
+</header>
+
+<main class="booking">
+  <div class="booking-container">
+    <div class="booking-head">
+      <span class="section-tag">Agendamento online</span>
+      <h1 class="booking-title">Agende seu <span class="gold">horário</span></h1>
+      <p class="booking-sub">
+        Escolha o barbeiro, o serviço, a data e o horário. Atendemos de terça a
+        sábado.
+      </p>
+    </div>
+
+    <!-- ===================== TELA DE SUCESSO ===================== -->
+    <div *ngIf="successMessage" class="success-box">
+      <svg lucideIcon="circle-check" class="icon success-icon"></svg>
+      <p>{{ successMessage }}</p>
+      <button class="btn btn-primary" (click)="novoAgendamento()">
+        Fazer outro agendamento
+      </button>
+    </div>
+
+    <!-- ===================== FORMULÁRIO ===================== -->
+    <form
+      *ngIf="!successMessage"
+      class="booking-form"
+      (ngSubmit)="confirm()"
+      novalidate
+    >
+      <!-- 1. BARBEIRO -->
+      <section class="step">
+        <h2 class="step-title">
+          <span class="step-num">1</span> Escolha o barbeiro
+        </h2>
+        <div class="cards-grid barbers">
+          <button
+            type="button"
+            class="select-card"
+            *ngFor="let b of barbers"
+            [class.selected]="selectedBarber?.id === b.id"
+            (click)="selectBarber(b)"
+          >
+            <svg lucideIcon="user" class="icon icon-lg"></svg>
+            <strong>{{ b.name }}</strong>
+          </button>
+        </div>
+      </section>
+
+      <!-- 2. SERVIÇO -->
+      <section class="step">
+        <h2 class="step-title">
+          <span class="step-num">2</span> Escolha o serviço
+        </h2>
+        <div class="cards-grid services">
+          <button
+            type="button"
+            class="select-card service-card"
+            *ngFor="let s of services"
+            [class.selected]="selectedService?.id === s.id"
+            (click)="selectService(s)"
+          >
+            <strong>{{ s.name }}</strong>
+            <span class="service-price">{{ formatPrice(s.price) }}</span>
+            <span class="service-duration">{{ s.durationMinutes }} min</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 3. DATA -->
+      <section class="step">
+        <h2 class="step-title">
+          <span class="step-num">3</span> Escolha a data
+        </h2>
+        <input
+          type="date"
+          class="date-input"
+          [min]="minDate"
+          [(ngModel)]="selectedDate"
+          name="date"
+          (ngModelChange)="onDateChange()"
+        />
+        <p *ngIf="dateInvalidMessage" class="field-msg warn">
+          {{ dateInvalidMessage }}
+        </p>
+      </section>
+
+      <!-- 4. HORÁRIO -->
+      <section class="step">
+        <h2 class="step-title">
+          <span class="step-num">4</span> Escolha o horário
+        </h2>
+
+        <!-- Antes de ter barbeiro+serviço+data -->
+        <p
+          *ngIf="!selectedBarber || !selectedService || !selectedDate"
+          class="field-msg muted"
+        >
+          Selecione barbeiro, serviço e data para ver os horários.
+        </p>
+
+        <!-- Carregando -->
+        <p *ngIf="loadingSlots" class="field-msg muted">
+          Carregando horários disponíveis...
+        </p>
+
+        <!-- Sem horários -->
+        <p
+          *ngIf="
+            !loadingSlots &&
+            slotsLoadedOnce &&
+            !dateInvalidMessage &&
+            availableSlots.length === 0 &&
+            selectedBarber &&
+            selectedService &&
+            selectedDate
+          "
+          class="field-msg warn"
+        >
+          Nenhum horário disponível para este barbeiro nesta data.
+        </p>
+
+        <!-- Grade de horários -->
+        <div
+          *ngIf="!loadingSlots && availableSlots.length > 0"
+          class="slots-grid"
+        >
+          <button
+            type="button"
+            class="slot"
+            *ngFor="let slot of availableSlots"
+            [class.selected]="selectedSlot === slot"
+            (click)="selectSlot(slot)"
+          >
+            {{ slot }}
+          </button>
+        </div>
+      </section>
+
+      <!-- 5. DADOS DO CLIENTE -->
+      <section class="step">
+        <h2 class="step-title">
+          <span class="step-num">5</span> Seus dados
+        </h2>
+        <div class="fields">
+          <label class="field">
+            <span>Nome *</span>
+            <input
+              type="text"
+              [(ngModel)]="customerName"
+              name="customerName"
+              placeholder="Seu nome"
+              autocomplete="name"
+            />
+          </label>
+
+          <label class="field">
+            <span>Telefone (WhatsApp) *</span>
+            <input
+              type="tel"
+              [(ngModel)]="customerPhone"
+              name="customerPhone"
+              placeholder="(51) 99999-9999"
+              autocomplete="tel"
+            />
+          </label>
+
+          <label class="field full">
+            <span>Observação (opcional)</span>
+            <textarea
+              [(ngModel)]="notes"
+              name="notes"
+              rows="2"
+              placeholder="Alguma preferência ou observação?"
+            ></textarea>
+          </label>
+        </div>
+      </section>
+
+      <!-- ERROS DE VALIDAÇÃO -->
+      <ul *ngIf="formErrors.length > 0" class="errors">
+        <li *ngFor="let e of formErrors">{{ e }}</li>
+      </ul>
+
+      <!-- ERRO DE ENVIO -->
+      <p *ngIf="errorMessage" class="field-msg error">{{ errorMessage }}</p>
+
+      <!-- RESUMO + CONFIRMAR -->
+      <div class="confirm-bar">
+        <div class="summary" *ngIf="selectedService && selectedSlot">
+          <span>{{ selectedService.name }}</span>
+          <span class="dot-sep">•</span>
+          <span>{{ selectedSlot }}</span>
+          <span class="dot-sep">•</span>
+          <span class="gold">{{ formatPrice(selectedService.price) }}</span>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!canSubmit || submitting"
+        >
+          <svg lucideIcon="check" class="icon"></svg>
+          {{ submitting ? 'Enviando...' : 'Confirmar agendamento' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</main>

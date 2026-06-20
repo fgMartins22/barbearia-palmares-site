@@ -1,0 +1,191 @@
+/* ============================================================
+   HEADER DO MODAL — 3 áreas fixas: voltar | progresso | fechar
+   ============================================================ */
+.booking-modal-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.booking-modal-header-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.booking-modal-header-center {
+  display: flex;
+  justify-content: center;
+}
+
+.booking-modal-header-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--color-gray);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 160ms ease;
+  white-space: nowrap;
+}
+
+.back-link:hover {
+  color: var(--color-gold);
+}
+
+.back-link .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Botão fechar (área direita do header) */
+.close-button {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.close-button:hover {
+  background: rgba(201, 162, 39, 0.2);
+  border-color: var(--color-gold);
+}
+
+.close-button .icon {
+  width: 18px;
+  height: 18px;
+  color: currentColor;
+}
+
+/* Indicador de progresso (6 etapas) — nunca a menos de 32px do botão X */
+.progress-dots {
+  display: flex;
+  gap: 8px;
+  padding: 0 48px;
+}
+
+.progress-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  /* transições só em propriedades leves */
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.progress-dot.done {
+  background: rgba(201, 162, 39, 0.55);
+}
+
+.progress-dot.active {
+  background: var(--color-gold);
+  transform: scale(1.25);
+}
+
+/* ============================================================
+   ÁREA DAS ETAPAS + ANIMAÇÃO LEVE (apenas opacity/transform)
+   ============================================================ */
+.step-area {
+  min-height: 180px;
+}
+
+.step-content {
+  animation: bkFadeSlideIn 180ms ease-out;
+  will-change: transform, opacity;
+}
+
+@keyframes bkFadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-footer {
+  margin-top: 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ============================================================
+   SUCESSO
+   ============================================================ */
+.success-box {
+  text-align: center;
+  padding: 28px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--color-gold);
+}
+
+.success-box p {
+  color: var(--color-white);
+  font-size: 1.08rem;
+  max-width: 440px;
+}
+
+.success-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ============================================================
+   RESPONSIVO — em telas pequenas, progresso vai para 2ª linha
+   ============================================================ */
+@media (max-width: 480px) {
+  .booking-modal-header {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'back close'
+      'progress progress';
+    row-gap: 16px;
+  }
+
+  .booking-modal-header-left {
+    grid-area: back;
+  }
+
+  .booking-modal-header-center {
+    grid-area: progress;
+    justify-content: center;
+  }
+
+  .booking-modal-header-right {
+    grid-area: close;
+  }
+
+  .progress-dots {
+    padding: 0;
+  }
+}

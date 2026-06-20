@@ -1,0 +1,109 @@
+<!-- ESTADO DE SUCESSO -->
+<div *ngIf="done" class="success-box step-content">
+  <svg lucideIcon="circle-check" class="icon success-icon"></svg>
+  <p>{{ successMessage }}</p>
+  <div class="success-actions">
+    <button class="btn btn-ghost" (click)="restart()">Novo agendamento</button>
+    <button class="btn btn-primary" (click)="requestClose.emit()">Fechar</button>
+  </div>
+</div>
+
+<!-- FLUXO DE ETAPAS -->
+<div *ngIf="!done" class="stepper">
+  <!-- HEADER DO MODAL: 3 áreas fixas (voltar | progresso | fechar) -->
+  <header class="booking-modal-header">
+    <div class="booking-modal-header-left">
+      <button type="button" class="back-link" (click)="goBack()">
+        <svg lucideIcon="arrow-left" class="icon"></svg> Voltar
+      </button>
+    </div>
+
+    <div class="booking-modal-header-center">
+      <div class="progress-dots">
+        <span
+          class="progress-dot"
+          *ngFor="let s of [1, 2, 3, 4, 5, 6]"
+          [class.active]="s === step"
+          [class.done]="s < step"
+        ></span>
+      </div>
+    </div>
+
+    <div class="booking-modal-header-right">
+      <button
+        type="button"
+        class="close-button"
+        (click)="requestClose.emit()"
+        aria-label="Fechar"
+      >
+        <svg lucideIcon="x" class="icon"></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Conteúdo da etapa atual (uma decisão por vez) -->
+  <div [ngSwitch]="step" class="step-area">
+    <div *ngSwitchCase="1" class="step-content">
+      <app-barber-selector-step
+        [selectedId]="flow.barber?.id || null"
+        (select)="onBarber($event)"
+      ></app-barber-selector-step>
+    </div>
+
+    <div *ngSwitchCase="2" class="step-content">
+      <app-service-selector-step
+        [selectedId]="flow.service?.id || null"
+        (select)="onService($event)"
+      ></app-service-selector-step>
+    </div>
+
+    <div *ngSwitchCase="3" class="step-content">
+      <app-date-selector-step
+        [value]="flow.date"
+        [minDate]="minDate"
+        [invalidMessage]="dateInvalidMessage"
+        (dateChange)="onDate($event)"
+      ></app-date-selector-step>
+    </div>
+
+    <div *ngSwitchCase="4" class="step-content">
+      <app-time-selector-step
+        [slots]="slots"
+        [loading]="loadingSlots"
+        [selected]="flow.time"
+        (select)="onTime($event)"
+      ></app-time-selector-step>
+    </div>
+
+    <div *ngSwitchCase="5" class="step-content">
+      <app-customer-data-step
+        [name]="flow.customerName"
+        [phone]="flow.customerPhone"
+        [notes]="flow.notes"
+        (valueChange)="onCustomer($event)"
+      ></app-customer-data-step>
+
+      <div class="step-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="!customerValid"
+          (click)="goToSummary()"
+        >
+          Revisar agendamento
+        </button>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="6" class="step-content">
+      <app-booking-summary-step
+        [data]="flow"
+        [mode]="mode"
+        [submitting]="submitting"
+        [errorMessage]="errorMessage"
+        (back)="step = 5"
+        (confirm)="confirm()"
+      ></app-booking-summary-step>
+    </div>
+  </div>
+</div>

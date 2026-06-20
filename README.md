@@ -81,3 +81,51 @@ src/app/
 Preto, dourado, branco e tons escuros — visual masculino, elegante e profissional.
 
 > Projeto 100% frontend: sem backend, sem autenticação.
+
+## 📅 Agendamento online (Supabase)
+
+A rota `/agendar` permite ao cliente escolher barbeiro, serviço, data e horário,
+e cria um agendamento com status `pending` no Supabase. O botão "Agendar horário"
+do header leva para essa página.
+
+### Configurar o Supabase
+
+1. Crie um projeto em [supabase.com](https://supabase.com).
+2. No painel, abra **SQL Editor** e rode o script `supabase/schema.sql`
+   (cria a tabela `appointments`, índices e as policies de RLS).
+3. Em **Project Settings > API**, copie a **Project URL** e a **anon public key**.
+4. Cole esses valores em:
+   - `src/environments/environment.ts` (produção)
+   - `src/environments/environment.development.ts` (dev / `ng serve`)
+
+> A `anon key` é pública por design e fica protegida pelas policies de RLS.
+
+### Regras de agendamento (resumo)
+
+- Dias: terça a sábado (sem domingo/segunda) e sem datas passadas.
+- Períodos: manhã 09:00–12:00, tarde 13:00–18:00, noite 18:00–19:30.
+- Barbeiros: Thiago (tarde + noite), Matheus (manhã + noite).
+- Slots de 15 em 15 minutos; o serviço precisa caber inteiro no período.
+- Conflito: bloqueia se `novoStart < existenteEnd` e `novoEnd > existenteStart`
+  para agendamentos `pending`/`confirmed` do mesmo barbeiro/data.
+
+### Estrutura do agendamento
+
+```
+src/app/
+├── core/
+│   ├── services/   supabase.service.ts, booking.service.ts
+│   ├── models/     appointment / barber / service
+│   └── constants/  barbers, services, business-hours
+└── features/
+    ├── landing/    landing.component.ts (a landing completa)
+    └── booking/    booking-page.component.* (a página /agendar)
+```
+
+### Privacidade (importante)
+
+Para calcular conflitos sem login, a policy de RLS permite que o papel anônimo
+leia a tabela (o frontend busca apenas `start_time`/`end_time`/`status`). Em
+produção, recomendo trocar por uma função `get_busy_intervals` (exemplo comentado
+no fim de `supabase/schema.sql`), que expõe só os intervalos ocupados, sem nome
+nem telefone dos clientes.

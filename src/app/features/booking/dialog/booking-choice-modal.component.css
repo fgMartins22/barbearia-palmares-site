@@ -1,0 +1,104 @@
+.choice-head {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.choice-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 8px;
+}
+
+.choice-sub {
+  color: var(--color-gray);
+  font-size: 1rem;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.choice-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 36px 26px;
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.choice-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-gold);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+}
+
+.choice-card.highlight {
+  border-color: rgba(201, 162, 39, 0.45);
+}
+
+.choice-card strong {
+  font-size: 1.2rem;
+}
+
+.choice-card p {
+  color: var(--color-gray);
+  font-size: 0.92rem;
+}
+
+.choice-icon {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(201, 162, 39, 0.12);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  color: var(--color-gold);
+  font-size: 1.8rem;
+}
+
+.choice-icon.whatsapp {
+  color: #25d366;
+  background: rgba(37, 211, 102, 0.12);
+  border-color: rgba(37, 211, 102, 0.4);
+}
+
+.choice-icon .icon {
+  width: 34px;
+  height: 34px;
+}
+
+.discount-info {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-gold);
+}
+
+.badge-discount {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--color-gold);
+  color: var(--color-black);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 50px;
+}
+
+@media (max-width: 600px) {
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+}

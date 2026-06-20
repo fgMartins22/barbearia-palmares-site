@@ -1,0 +1,43 @@
+<!-- OVERLAY -->
+<div
+  *ngIf="dialog.isOpen()"
+  class="bk-overlay"
+  @overlay
+  (click)="dialog.close()"
+>
+  <!-- PAINEL (stopPropagation para não fechar ao clicar dentro) -->
+  <div
+    class="bk-panel booking-dialog"
+    @panel
+    (click)="$event.stopPropagation()"
+    role="dialog"
+    aria-modal="true"
+  >
+    <!-- Botão de fechar do modal de escolha (no stepper, o fechar fica no header) -->
+    <button
+      *ngIf="dialog.view() === 'choice'"
+      type="button"
+      class="bk-close"
+      (click)="dialog.close()"
+      aria-label="Fechar"
+    >
+      <svg lucideIcon="x" class="icon"></svg>
+    </button>
+
+    <!-- TELA DE ESCOLHA -->
+    <app-booking-choice-modal
+      *ngIf="dialog.view() === 'choice'"
+      (choose)="dialog.chooseMode($event)"
+    ></app-booking-choice-modal>
+
+    <!-- PASSO A PASSO -->
+    <app-booking-stepper
+      *ngIf="dialog.view() === 'stepper'"
+      [mode]="dialog.mode()"
+      [preselectedServiceId]="dialog.preselectedServiceId()"
+      [preselectedDate]="dialog.preselectedDate()"
+      (requestChoice)="dialog.backToChoice()"
+      (requestClose)="dialog.close()"
+    ></app-booking-stepper>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="adm-overlay" (click)="close.emit()">
+  <div class="adm-modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+    <button type="button" class="adm-close" (click)="close.emit()" aria-label="Fechar">
+      <svg lucideIcon="x" class="icon"></svg>
+    </button>
+
+    <div class="adm-modal-head">
+      <div class="badges">
+        <span class="status-badge" [class]="'st-' + appointment.status">
+          {{ statusLabels[appointment.status] }}
+        </span>
+        <span *ngIf="isInternal" class="source-badge">Criado internamente</span>
+      </div>
+      <h3>{{ appointment.customer_name }}</h3>
+    </div>
+
+    <ul class="detail-list">
+      <li><span>Telefone</span><strong>{{ appointment.customer_phone }}</strong></li>
+      <li><span>Barbeiro</span><strong>{{ appointment.barber_name }}</strong></li>
+      <li><span>Serviço</span><strong>{{ appointment.service_name }}</strong></li>
+      <li><span>Valor</span><strong class="gold">{{ price(appointment.service_price) }}</strong></li>
+      <li><span>Duração</span><strong>{{ appointment.service_duration_minutes }} min</strong></li>
+      <li><span>Data</span><strong>{{ dateBR(appointment.appointment_date) }}</strong></li>
+      <li><span>Início</span><strong>{{ hhmm(appointment.start_time) }}</strong></li>
+      <li><span>Fim</span><strong>{{ hhmm(appointment.end_time) }}</strong></li>
+      <li *ngIf="appointment.notes"><span>Observação</span><strong>{{ appointment.notes }}</strong></li>
+      <li><span>Criado em</span><strong>{{ fmtDateTime(appointment.created_at) }}</strong></li>
+      <li><span>Atualizado em</span><strong>{{ fmtDateTime(appointment.updated_at) }}</strong></li>
+    </ul>
+
+    <!-- Ações dependem do status -->
+    <div class="adm-modal-actions">
+      <!-- pending -->
+      <ng-container *ngIf="appointment.status === 'pending'">
+        <button type="button" class="btn btn-confirm" [disabled]="submitting" (click)="confirm.emit(appointment)">
+          <svg lucideIcon="check" class="icon"></svg> Confirmar
+        </button>
+        <button type="button" class="btn btn-reject" [disabled]="submitting" (click)="reject.emit(appointment)">
+          <svg lucideIcon="x" class="icon"></svg> Recusar
+        </button>
+      </ng-container>
+
+      <!-- confirmed -->
+      <button
+        *ngIf="appointment.status === 'confirmed'"
+        type="button"
+        class="btn btn-complete"
+        [disabled]="submitting"
+        (click)="complete.emit(appointment)"
+      >
+        <svg lucideIcon="check-check" class="icon"></svg> Concluir
+      </button>
+
+      <!-- rejected -->
+      <button
+        *ngIf="appointment.status === 'rejected'"
+        type="button"
+        class="btn btn-ghost"
+        [disabled]="submitting"
+        (click)="reactivate.emit(appointment)"
+      >
+        <svg lucideIcon="rotate-ccw" class="icon"></svg> Reativar
+      </button>
+
+      <!-- excluir: disponível em pending/confirmed/rejected/completed -->
+      <button
+        *ngIf="appointment.status !== 'cancelled'"
+        type="button"
+        class="btn btn-delete"
+        [disabled]="submitting"
+        (click)="remove.emit(appointment)"
+      >
+        <svg lucideIcon="trash-2" class="icon"></svg> Excluir
+      </button>
+
+      <button type="button" class="btn btn-ghost" (click)="close.emit()">
+        Fechar
+      </button>
+    </div>
+  </div>
+</div>

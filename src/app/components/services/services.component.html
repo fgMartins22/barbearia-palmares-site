@@ -20,13 +20,13 @@
         <p>{{ s.descricao }}</p>
         <div class="service-footer">
           <span class="service-preco">{{ s.preco }}</span>
-          <a
+          <button
+            type="button"
             class="btn btn-outline btn-sm"
-            [href]="whatsapp"
-            target="_blank"
-            rel="noopener"
-            >Agendar</a
+            (click)="agendar(s.bookingId)"
           >
+            Agendar
+          </button>
         </div>
       </article>
     </div>

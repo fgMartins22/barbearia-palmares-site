@@ -16,6 +16,8 @@ export interface Servico {
   titulo: string;
   descricao: string;
   preco: string; // ex.: "R$ 40" — troque pelos seus valores
+  // id correspondente em core/constants/services.constants.ts (usado no agendamento)
+  bookingId: string;
 }
 
 export interface Depoimento {
@@ -60,6 +62,7 @@ export const SERVICOS: Servico[] = [
     descricao:
       'Cortes clássicos e modernos, feitos sob medida para o seu estilo.',
     preco: 'R$ 40,00',
+    bookingId: 'corte',
   },
   {
     icone: 'scissors-line-dashed',
@@ -67,6 +70,7 @@ export const SERVICOS: Servico[] = [
     descricao:
       'Modelagem, alinhamento e toalha quente para uma barba impecável.',
     preco: 'R$ 45,00',
+    bookingId: 'barba',
   },
   {
     icone: 'sparkles',
@@ -74,6 +78,7 @@ export const SERVICOS: Servico[] = [
     descricao:
       'O combo completo para você sair renovado e com o visual no ponto.',
     preco: 'R$ 70,00',
+    bookingId: 'corte_barba',
   },
   {
     icone: 'star',
@@ -81,6 +86,7 @@ export const SERVICOS: Servico[] = [
     descricao:
       'Aquele retoque na pegada, pezinho e contornos para manter o corte sempre alinhado.',
     preco: 'R$ 15,00',
+    bookingId: 'acabamento',
   },
 ];
 

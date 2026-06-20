@@ -1,0 +1,253 @@
+<div class="dash">
+  <div class="dash-container">
+    <!-- HEADER -->
+    <header class="dash-header">
+      <div class="dash-title">
+        <h1>Painel de Agendamentos</h1>
+        <p>Barbearia Palmares</p>
+      </div>
+      <div class="dash-nav">
+        <button type="button" class="btn btn-ghost btn-sm" (click)="prevMonth()">
+          <svg lucideIcon="chevron-left" class="icon"></svg> Mês anterior
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="goToday()">
+          Hoje
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" (click)="nextMonth()">
+          Próximo mês <svg lucideIcon="chevron-right" class="icon"></svg>
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="novoAgendamento()">
+          <svg lucideIcon="plus" class="icon"></svg> Novo agendamento
+        </button>
+      </div>
+    </header>
+
+    <!-- MÉTRICAS -->
+    <div class="metrics">
+      <div class="metric-card">
+        <span class="metric-value gold">{{ metrics.pending }}</span>
+        <span class="metric-label">Pendentes</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-value green">{{ metrics.confirmed }}</span>
+        <span class="metric-label">Confirmados</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-value red">{{ metrics.rejected }}</span>
+        <span class="metric-label">Recusados</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-value gray">{{ metrics.cancelled }}</span>
+        <span class="metric-label">Cancelados</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-value blue">{{ metrics.completed }}</span>
+        <span class="metric-label">Concluídos</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-value">{{ metrics.total }}</span>
+        <span class="metric-label">Total do mês</span>
+      </div>
+      <div class="metric-card revenue">
+        <span class="metric-value gold">{{ price(metrics.revenue) }}</span>
+        <span class="metric-label">Faturamento previsto</span>
+      </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filters">
+      <label class="filter">
+        <span>Barbeiro</span>
+        <select [(ngModel)]="filterBarber">
+          <option value="all">Todos</option>
+          <option *ngFor="let b of barbers" [value]="b.id">{{ b.name }}</option>
+        </select>
+      </label>
+
+      <label class="filter">
+        <span>Status</span>
+        <select [(ngModel)]="filterStatus">
+          <option value="all">Todos</option>
+          <option value="pending">Pendentes</option>
+          <option value="confirmed">Confirmados</option>
+          <option value="rejected">Recusados</option>
+          <option value="completed">Concluídos</option>
+        </select>
+      </label>
+
+      <label class="filter grow">
+        <span>Buscar cliente</span>
+        <div class="search-box">
+          <svg lucideIcon="search" class="icon"></svg>
+          <input type="text" [(ngModel)]="search" placeholder="Nome do cliente..." />
+        </div>
+      </label>
+    </div>
+
+    <!-- ESTADO -->
+    <p *ngIf="loading" class="state-msg">Carregando agendamentos...</p>
+    <p *ngIf="errorMessage" class="state-msg error">{{ errorMessage }}</p>
+
+    <!-- AGENDA MENSAL -->
+    <section class="calendar-section" *ngIf="!loading">
+      <h2 class="month-label">{{ monthLabel }}</h2>
+      <p class="hint">Clique em um dia para criar um agendamento interno.</p>
+
+      <!-- DESKTOP: grid mensal -->
+      <div class="calendar">
+        <div class="weekday" *ngFor="let w of weekdays">{{ w }}</div>
+
+        <div
+          class="day-cell"
+          *ngFor="let cell of calendarCells"
+          [class.empty]="cell.day === null"
+          [class.today]="cell.isToday"
+          [class.clickable]="cell.day !== null"
+          (click)="onDayClick(cell.dateStr)"
+        >
+          <div class="day-head" *ngIf="cell.day !== null">
+            <span class="day-num">{{ cell.day }}</span>
+            <span class="day-count" *ngIf="cell.appts.length > 0">
+              {{ cell.appts.length }}
+              {{ cell.appts.length === 1 ? 'agendamento' : 'agendamentos' }}
+            </span>
+          </div>
+          <div class="day-appts">
+            <button
+              type="button"
+              class="appt-tag"
+              [class]="'st-' + a.status"
+              *ngFor="let a of cell.appts"
+              (click)="$event.stopPropagation(); openDetail(a)"
+              [title]="hhmm(a.start_time) + ' · ' + a.customer_name + ' · ' + a.service_name"
+            >
+              {{ hhmm(a.start_time) }} · {{ abbrevName(a.customer_name) }} ·
+              {{ a.service_name }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE: lista por dia -->
+      <div class="day-list">
+        <p *ngIf="dayGroups.length === 0" class="state-msg">
+          Nenhum agendamento neste mês.
+        </p>
+        <div class="day-group" *ngFor="let g of dayGroups">
+          <h3 class="day-group-label">
+            {{ g.label }} · {{ g.appts.length }}
+          </h3>
+          <button
+            type="button"
+            class="appt-tag block"
+            [class]="'st-' + a.status"
+            *ngFor="let a of g.appts"
+            (click)="openDetail(a)"
+          >
+            {{ hhmm(a.start_time) }} · {{ abbrevName(a.customer_name) }} ·
+            {{ a.service_name }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTÓRICO DE DECISÕES (paginado, por mês) -->
+    <section class="audit-section">
+      <div class="audit-head">
+        <h2 class="month-label">Histórico de decisões</h2>
+        <div class="audit-filters">
+          <select [(ngModel)]="histMonth" (ngModelChange)="onHistoryFilterChange()">
+            <option *ngFor="let m of monthsPt; let i = index" [ngValue]="i">{{ m }}</option>
+          </select>
+          <select [(ngModel)]="histYear" (ngModelChange)="onHistoryFilterChange()">
+            <option *ngFor="let y of yearOptions" [ngValue]="y">{{ y }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Data da decisão</th>
+              <th>Cliente</th>
+              <th>Telefone</th>
+              <th>Barbeiro</th>
+              <th>Serviço</th>
+              <th>Data do atendimento</th>
+              <th>Horário</th>
+              <th>Status</th>
+              <th>Última atualização</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of pagedHistory" class="audit-row" (click)="openDetail(a)">
+              <td>{{ decisionDate(a) }}</td>
+              <td>{{ a.customer_name }}</td>
+              <td>{{ a.customer_phone }}</td>
+              <td>{{ a.barber_name }}</td>
+              <td>{{ a.service_name }}</td>
+              <td>{{ dateBR(a.appointment_date) }}</td>
+              <td>{{ hhmm(a.start_time) }}</td>
+              <td>
+                <span class="status-badge" [class]="'st-' + a.status">
+                  {{ statusLabels[a.status] }}
+                </span>
+              </td>
+              <td>{{ fmtDateTime(a.updated_at) }}</td>
+            </tr>
+            <tr *ngIf="historyFiltered.length === 0">
+              <td colspan="9" class="empty-row">
+                Nenhuma decisão registrada neste mês.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PAGINAÇÃO -->
+      <div class="pagination" *ngIf="historyFiltered.length > 0">
+        <button type="button" class="btn btn-ghost btn-sm" [disabled]="histPage === 1" (click)="prevPage()">
+          &lt;&lt; Anterior
+        </button>
+        <span class="page-info">Página {{ histPage }} de {{ totalPages }}</span>
+        <button type="button" class="btn btn-ghost btn-sm" [disabled]="histPage === totalPages" (click)="nextPage()">
+          Próxima &gt;&gt;
+        </button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- MODAL DE DETALHES -->
+<app-appointment-detail-modal
+  *ngIf="selected"
+  [appointment]="selected"
+  [submitting]="submitting"
+  (confirm)="onConfirm($event)"
+  (reject)="onReject($event)"
+  (complete)="onComplete($event)"
+  (reactivate)="onReactivate($event)"
+  (remove)="askDelete($event)"
+  (close)="closeDetail()"
+></app-appointment-detail-modal>
+
+<!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+<div class="confirm-overlay" *ngIf="deleteTarget" (click)="cancelDelete()">
+  <div class="confirm-box" (click)="$event.stopPropagation()">
+    <h3>Excluir agendamento</h3>
+    <p>
+      Tem certeza que deseja excluir este agendamento?<br />
+      Esta ação não poderá ser desfeita.
+    </p>
+    <div class="confirm-actions">
+      <button type="button" class="btn btn-ghost" (click)="cancelDelete()">Cancelar</button>
+      <button type="button" class="btn btn-delete-confirm" [disabled]="submitting" (click)="confirmDelete()">
+        Excluir
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE AGENDAMENTO (reaproveitado do fluxo do cliente, modo interno) -->
+<app-booking-dialog></app-booking-dialog>

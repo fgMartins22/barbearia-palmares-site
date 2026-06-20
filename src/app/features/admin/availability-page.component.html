@@ -1,0 +1,142 @@
+<div class="avail">
+  <header class="avail-header">
+    <h1>Disponibilidade dos Barbeiros</h1>
+    <p>Bloqueie ou libere horários. As mudanças valem na hora para os clientes.</p>
+  </header>
+
+  <!-- SELEÇÃO DE BARBEIRO -->
+  <div class="barber-cards">
+    <button
+      type="button"
+      class="barber-card"
+      *ngFor="let b of barbers"
+      [class.selected]="selectedBarber?.id === b.id"
+      (click)="selectBarber(b)"
+    >
+      <svg lucideIcon="user" class="icon icon-lg"></svg>
+      <strong>{{ b.name }}</strong>
+    </button>
+  </div>
+
+  <ng-container *ngIf="selectedBarber">
+    <h2 class="avail-subtitle">Disponibilidade — {{ selectedBarber.name }}</h2>
+
+    <!-- INDICADORES -->
+    <div class="indicators">
+      <div class="indicator">
+        <span class="ind-value green">{{ availableToday }}</span>
+        <span class="ind-label">Disponíveis hoje</span>
+      </div>
+      <div class="indicator">
+        <span class="ind-value red">{{ blockedToday }}</span>
+        <span class="ind-label">Bloqueados hoje</span>
+      </div>
+      <div class="indicator">
+        <span class="ind-value">{{ nextBlockedDay ? dateBR(nextBlockedDay) : '—' }}</span>
+        <span class="ind-label">Próximo dia bloqueado</span>
+      </div>
+      <div class="indicator">
+        <span class="ind-value gold">{{ weekBlockedHours }}h</span>
+        <span class="ind-label">Bloqueadas na semana</span>
+      </div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="controls">
+      <label class="ctrl">
+        <span>Data</span>
+        <input
+          type="date"
+          class="date-input"
+          [min]="minDate"
+          [(ngModel)]="selectedDate"
+          (ngModelChange)="onDateChange()"
+        />
+      </label>
+
+      <label class="ctrl">
+        <span>Mostrar</span>
+        <select [(ngModel)]="filter">
+          <option value="all">Todos</option>
+          <option value="available">Disponíveis</option>
+          <option value="blocked">Bloqueados</option>
+        </select>
+      </label>
+
+      <div class="ctrl-actions">
+        <button type="button" class="btn btn-outline btn-sm" (click)="openBlockModal(false)">
+          <svg lucideIcon="ban" class="icon"></svg> Bloquear horários
+        </button>
+        <button type="button" class="btn btn-outline btn-sm" (click)="openBlockModal(true)">
+          <svg lucideIcon="calendar-off" class="icon"></svg> Bloquear dia inteiro
+        </button>
+      </div>
+    </div>
+
+    <!-- ESTADO -->
+    <p *ngIf="loading" class="state-msg">Carregando horários...</p>
+    <p *ngIf="errorMessage" class="state-msg error">{{ errorMessage }}</p>
+
+    <!-- GRADE DE HORÁRIOS -->
+    <div class="slots-grid" *ngIf="!loading">
+      <p *ngIf="filteredSlots.length === 0" class="state-msg">
+        Nenhum horário para exibir com este filtro.
+      </p>
+      <button
+        type="button"
+        class="slot"
+        *ngFor="let s of filteredSlots"
+        [class.blocked]="isBlocked(s)"
+        [disabled]="saving"
+        (click)="toggleSlot(s)"
+        [title]="isBlocked(s) ? (reasonFor(s) || 'Bloqueado') : 'Disponível'"
+      >
+        <svg [lucideIcon]="isBlocked(s) ? 'x' : 'check'" class="icon"></svg>
+        {{ s }}
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<!-- MODAL DE BLOQUEIO -->
+<div class="block-overlay" *ngIf="showBlockModal" (click)="closeBlockModal()">
+  <div class="block-box" (click)="$event.stopPropagation()">
+    <h3>{{ blockFull ? 'Bloquear dia inteiro' : 'Bloquear horários' }}</h3>
+
+    <div class="block-fields">
+      <label class="ctrl">
+        <span>Data</span>
+        <input type="date" class="date-input" [min]="minDate" [(ngModel)]="selectedDate" />
+      </label>
+
+      <ng-container *ngIf="!blockFull">
+        <label class="ctrl">
+          <span>Hora inicial</span>
+          <input type="time" class="date-input" step="900" [(ngModel)]="blockStart" />
+        </label>
+        <label class="ctrl">
+          <span>Hora final</span>
+          <input type="time" class="date-input" step="900" [(ngModel)]="blockEnd" />
+        </label>
+      </ng-container>
+
+      <label class="ctrl full">
+        <span>Motivo (opcional)</span>
+        <input
+          type="text"
+          class="date-input"
+          maxlength="120"
+          placeholder="Ex.: Férias, Curso, Médico..."
+          [(ngModel)]="blockReason"
+        />
+      </label>
+    </div>
+
+    <div class="block-actions">
+      <button type="button" class="btn btn-ghost" (click)="closeBlockModal()">Cancelar</button>
+      <button type="button" class="btn btn-primary" [disabled]="saving" (click)="confirmBlock()">
+        Confirmar
+      </button>
+    </div>
+  </div>
+</div>

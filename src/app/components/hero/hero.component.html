@@ -28,14 +28,9 @@
 
     <!-- BOTÕES -->
     <div class="hero-actions fade-up delay-2">
-      <a
-        class="btn btn-primary"
-        [href]="whatsapp"
-        target="_blank"
-        rel="noopener"
-      >
-        <app-brand-icon name="whatsapp"></app-brand-icon> Agendar pelo WhatsApp
-      </a>
+      <button type="button" class="btn btn-primary" (click)="agendar()">
+        <svg lucideIcon="calendar" class="icon"></svg> Agendar Agora
+      </button>
       <a class="btn btn-ghost" [href]="instagram" target="_blank" rel="noopener">
         <app-brand-icon name="instagram"></app-brand-icon> Ver Instagram
       </a>

@@ -235,3 +235,238 @@ ul {
     padding: 64px 0;
   }
 }
+
+/* =========================================================
+   AGENDAMENTO — estilos compartilhados das etapas
+   Escopados em .booking-dialog para não vazar para a landing.
+   (ficam globais porque cada etapa é um componente separado)
+   ========================================================= */
+.booking-dialog .step-title {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.booking-dialog .step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: var(--color-black);
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.booking-dialog .cards-grid {
+  display: grid;
+  gap: 14px;
+}
+.booking-dialog .cards-grid.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+.booking-dialog .cards-grid.four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.booking-dialog .select-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 22px 16px;
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+.booking-dialog .select-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 162, 39, 0.55);
+}
+.booking-dialog .select-card.selected {
+  border-color: var(--color-gold);
+  background: rgba(201, 162, 39, 0.12);
+  box-shadow: 0 0 0 1px var(--color-gold) inset;
+}
+.booking-dialog .select-card strong {
+  font-size: 1.05rem;
+}
+.booking-dialog .select-card small {
+  font-size: 0.78rem;
+  color: var(--color-gray);
+}
+.booking-dialog .service-card .service-price {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  color: var(--color-gold);
+}
+.booking-dialog .service-card .service-duration {
+  font-size: 0.78rem;
+  color: var(--color-gray-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.booking-dialog .date-input {
+  width: 100%;
+  max-width: 280px;
+  padding: 14px 16px;
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color-scheme: dark;
+}
+.booking-dialog .date-input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.booking-dialog .slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+}
+.booking-dialog .slot {
+  padding: 11px 8px;
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.booking-dialog .slot:hover {
+  border-color: rgba(201, 162, 39, 0.6);
+  transform: translateY(-2px);
+}
+.booking-dialog .slot.selected {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-black);
+  font-weight: 700;
+}
+
+.booking-dialog .fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.booking-dialog .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+.booking-dialog .field.full {
+  grid-column: 1 / -1;
+}
+.booking-dialog .field span {
+  font-size: 0.85rem;
+  color: var(--color-gray);
+  font-weight: 500;
+}
+.booking-dialog .field input,
+.booking-dialog .field textarea {
+  padding: 13px 15px;
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  resize: vertical;
+}
+.booking-dialog .field input:focus,
+.booking-dialog .field textarea:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+.booking-dialog .counter {
+  align-self: flex-end;
+  font-size: 0.72rem;
+  color: var(--color-gray-dark);
+}
+
+.booking-dialog .field-msg {
+  font-size: 0.92rem;
+  margin-top: 10px;
+}
+.booking-dialog .field-msg.muted {
+  color: var(--color-gray-dark);
+}
+.booking-dialog .field-msg.small {
+  font-size: 0.8rem;
+}
+.booking-dialog .field-msg.warn {
+  color: #e0b84c;
+}
+.booking-dialog .field-msg.error {
+  color: #ef6f6f;
+}
+
+/* Resumo */
+.booking-dialog .summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.booking-dialog .summary-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  background: var(--color-dark-2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.booking-dialog .summary-list li:last-child {
+  border-bottom: none;
+}
+.booking-dialog .summary-list span {
+  color: var(--color-gray);
+  font-size: 0.9rem;
+}
+.booking-dialog .summary-list strong {
+  color: var(--color-white);
+  text-align: right;
+}
+.booking-dialog .discount-note {
+  color: var(--color-gold);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.booking-dialog .summary-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+@media (max-width: 600px) {
+  .booking-dialog .cards-grid.four {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .booking-dialog .fields {
+    grid-template-columns: 1fr;
+  }
+}

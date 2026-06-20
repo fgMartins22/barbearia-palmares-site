@@ -1,0 +1,268 @@
+.avail {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0c0c0c, #161616);
+  padding: 28px 22px 60px;
+  color: var(--color-white);
+}
+
+.avail-header {
+  margin-bottom: 22px;
+}
+
+.avail-header h1 {
+  font-family: var(--font-title);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: 1px;
+}
+
+.avail-header p {
+  color: var(--color-gray);
+  font-size: 0.92rem;
+}
+
+/* SELEÇÃO DE BARBEIRO */
+.barber-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.barber-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 30px;
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+
+.barber-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(201, 162, 39, 0.5);
+}
+
+.barber-card.selected {
+  border-color: var(--color-gold);
+  background: rgba(201, 162, 39, 0.12);
+}
+
+.avail-subtitle {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  color: var(--color-gold);
+  margin-bottom: 18px;
+}
+
+/* INDICADORES */
+.indicators {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.indicator {
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ind-value {
+  font-family: var(--font-title);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+.ind-value.green { color: #4ade80; }
+.ind-value.red { color: #f87171; }
+.ind-value.gold { color: var(--color-gold); }
+
+.ind-label {
+  font-size: 0.76rem;
+  color: var(--color-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* CONTROLES */
+.controls {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-bottom: 22px;
+}
+
+.ctrl {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ctrl.full {
+  flex: 1 1 100%;
+}
+
+.ctrl span {
+  font-size: 0.78rem;
+  color: var(--color-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.date-input,
+.ctrl select {
+  padding: 11px 13px;
+  background: var(--color-dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color-scheme: dark;
+}
+
+.date-input:focus,
+.ctrl select:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.ctrl-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.btn-sm {
+  padding: 9px 14px;
+  font-size: 0.8rem;
+}
+.btn-sm .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.state-msg {
+  color: var(--color-gray);
+  padding: 10px 0;
+}
+.state-msg.error {
+  color: #f87171;
+}
+
+/* GRADE DE HORÁRIOS */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 10px;
+}
+
+.slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 13px 10px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 140ms ease, filter 140ms ease;
+  /* Disponível: verde */
+  background: rgba(46, 184, 92, 0.15);
+  border: 1px solid rgba(46, 184, 92, 0.5);
+  color: #6ee7a0;
+}
+
+.slot:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+}
+
+.slot:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.slot .icon {
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+}
+
+/* Bloqueado: vermelho */
+.slot.blocked {
+  background: rgba(239, 111, 111, 0.15);
+  border-color: rgba(239, 111, 111, 0.5);
+  color: #f8a3a3;
+}
+
+/* MODAL DE BLOQUEIO */
+.block-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.block-box {
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(160deg, #161616, #0e0e0e);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.block-box h3 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.block-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.block-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* RESPONSIVO: botões maiores para toque no mobile */
+@media (max-width: 600px) {
+  .slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .slot {
+    padding: 16px 10px;
+    font-size: 1rem;
+  }
+  .ctrl-actions {
+    margin-left: 0;
+    width: 100%;
+  }
+  .ctrl-actions .btn {
+    flex: 1 1 auto;
+  }
+}

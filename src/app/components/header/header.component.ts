@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SITE_CONFIG, whatsappLink } from '../../data/site-config';
+import { SITE_CONFIG } from '../../data/site-config';
+import { BookingDialogService } from '../../features/booking/dialog/booking-dialog.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,6 @@ import { SITE_CONFIG, whatsappLink } from '../../data/site-config';
 })
 export class HeaderComponent {
   nome = SITE_CONFIG.nome;
-  whatsapp = whatsappLink();
 
   // Controla a sombra/fundo do header ao rolar a página
   scrolled = false;
@@ -29,6 +29,8 @@ export class HeaderComponent {
     { label: 'Contato', href: '#contato' },
   ];
 
+  constructor(private bookingDialog: BookingDialogService) {}
+
   @HostListener('window:scroll')
   onScroll(): void {
     this.scrolled = window.scrollY > 20;
@@ -40,5 +42,11 @@ export class HeaderComponent {
 
   closeMenu(): void {
     this.menuOpen = false;
+  }
+
+  /** Abre o modal de agendamento (tela de escolha WhatsApp/Site). */
+  agendar(): void {
+    this.closeMenu();
+    this.bookingDialog.openChoice();
   }
 }

@@ -58,17 +58,31 @@
         </a>
       </div>
 
-      <!-- MAPA (Google Maps incorporado) -->
+      <!-- MAPA (somente iframe embed do Google Maps — sem JS API e sem key) -->
       <!-- [EDITAR] Para mudar o local, gere um novo link em "Compartilhar >
            Incorporar um mapa" no Google Maps e troque o src do iframe abaixo. -->
       <div class="location-map">
         <iframe
           class="map-iframe"
           title="Mapa - Barbearia Palmares"
-          src="https://maps.google.com/maps?width=600&height=400&hl=en&q=Tv. Américo Silveira, 231 - Cristo Redentor, Porto Alegre - RS, 91360-000, Brazil&t=&z=17&ie=UTF8&iwloc=B&output=embed"
+          src="https://maps.google.com/maps?width=600&height=400&hl=pt-BR&q=Tv. Américo Silveira, 231 - Cristo Redentor, Porto Alegre - RS, 91360-000, Brazil&t=&z=17&ie=UTF8&iwloc=B&output=embed"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
+          (load)="onMapLoad()"
+          (error)="onMapError()"
         ></iframe>
+
+        <!-- Fallback: aparece se o iframe não carregar -->
+        <a
+          *ngIf="mapStatus === 'failed'"
+          class="map-fallback"
+          [href]="googleMaps"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg lucideIcon="map-pin" class="icon icon-lg"></svg>
+          <span>Não foi possível carregar o mapa. Clique para abrir no Google Maps.</span>
+        </a>
       </div>
     </div>
   </div>
