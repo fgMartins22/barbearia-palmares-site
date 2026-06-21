@@ -35,6 +35,7 @@ export class AvailabilityPageComponent implements OnInit {
   filter: SlotFilter = 'all';
 
   loading = false;
+  isLoadingBarber = false;
   saving = false;
   errorMessage = '';
 
@@ -66,8 +67,15 @@ export class AvailabilityPageComponent implements OnInit {
   async selectBarber(b: Barber): Promise<void> {
     this.selectedBarber = b;
     this.grid = this.availability.getDayGrid(b.id);
-    await this.loadDay();
-    await this.loadIndicators();
+    // Skeleton com delay visual de 800ms ao trocar de barbeiro.
+    this.isLoadingBarber = true;
+    await Promise.all([this.loadDay(), this.loadIndicators(), this.delay(800)]);
+    this.isLoadingBarber = false;
+  }
+
+  /** Delay visual (UX dos skeletons). */
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   async onDateChange(): Promise<void> {
@@ -143,6 +151,12 @@ export class AvailabilityPageComponent implements OnInit {
 
   isBlocked(slot: string): boolean {
     return this.blocked.has(slot);
+  }
+
+  /** Quantidade de placeholders de skeleton, próxima do conteúdo real. */
+  get skeletonSlots(): number[] {
+    const n = this.grid.length || 18;
+    return Array.from({ length: n }, (_, i) => i);
   }
 
   reasonFor(slot: string): string {

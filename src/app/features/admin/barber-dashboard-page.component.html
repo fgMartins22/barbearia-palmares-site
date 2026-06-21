@@ -22,8 +22,12 @@
       </div>
     </header>
 
-    <!-- MÉTRICAS -->
-    <div class="metrics">
+    <!-- MÉTRICAS (skeleton enquanto carrega) -->
+    <div class="metrics" *ngIf="isLoadingMonth">
+      <div class="skeleton sk-metric" *ngFor="let s of [1,2,3,4,5,6,7]"></div>
+    </div>
+
+    <div class="metrics" *ngIf="!isLoadingMonth">
       <div class="metric-card">
         <span class="metric-value gold">{{ metrics.pending }}</span>
         <span class="metric-label">Pendentes</span>
@@ -85,11 +89,16 @@
     </div>
 
     <!-- ESTADO -->
-    <p *ngIf="loading" class="state-msg">Carregando agendamentos...</p>
     <p *ngIf="errorMessage" class="state-msg error">{{ errorMessage }}</p>
 
+    <!-- AGENDA — SKELETON -->
+    <section class="calendar-section" *ngIf="isLoadingMonth">
+      <div class="skeleton sk-title"></div>
+      <div class="skeleton sk-calendar"></div>
+    </section>
+
     <!-- AGENDA MENSAL -->
-    <section class="calendar-section" *ngIf="!loading">
+    <section class="calendar-section" *ngIf="!isLoadingMonth">
       <h2 class="month-label">{{ monthLabel }}</h2>
       <p class="hint">Clique em um dia para criar um agendamento interno.</p>
 
@@ -151,70 +160,71 @@
       </div>
     </section>
 
-    <!-- HISTÓRICO DE DECISÕES (paginado, por mês) -->
+    <!-- HISTÓRICO DE DECISÕES (sincronizado com o mês da agenda) -->
     <section class="audit-section">
       <div class="audit-head">
         <h2 class="month-label">Histórico de decisões</h2>
-        <div class="audit-filters">
-          <select [(ngModel)]="histMonth" (ngModelChange)="onHistoryFilterChange()">
-            <option *ngFor="let m of monthsPt; let i = index" [ngValue]="i">{{ m }}</option>
-          </select>
-          <select [(ngModel)]="histYear" (ngModelChange)="onHistoryFilterChange()">
-            <option *ngFor="let y of yearOptions" [ngValue]="y">{{ y }}</option>
-          </select>
+        <!-- Mês/ano apenas como indicador: segue a agenda automaticamente -->
+        <span class="audit-period">{{ monthLabel }}</span>
+      </div>
+
+      <!-- SKELETON do histórico -->
+      <div class="history-skeleton" *ngIf="isLoadingMonth">
+        <div class="skeleton sk-row" *ngFor="let r of [1,2,3,4,5]"></div>
+      </div>
+
+      <ng-container *ngIf="!isLoadingMonth">
+        <div class="table-wrap">
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th>Data da decisão</th>
+                <th>Cliente</th>
+                <th>Telefone</th>
+                <th>Barbeiro</th>
+                <th>Serviço</th>
+                <th>Data do atendimento</th>
+                <th>Horário</th>
+                <th>Status</th>
+                <th>Última atualização</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of pagedHistory" class="audit-row" (click)="openDetail(a)">
+                <td>{{ decisionDate(a) }}</td>
+                <td>{{ a.customer_name }}</td>
+                <td>{{ a.customer_phone }}</td>
+                <td>{{ a.barber_name }}</td>
+                <td>{{ a.service_name }}</td>
+                <td>{{ dateBR(a.appointment_date) }}</td>
+                <td>{{ hhmm(a.start_time) }}</td>
+                <td>
+                  <span class="status-badge" [class]="'st-' + a.status">
+                    {{ statusLabels[a.status] }}
+                  </span>
+                </td>
+                <td>{{ fmtDateTime(a.updated_at) }}</td>
+              </tr>
+              <tr *ngIf="historyFiltered.length === 0">
+                <td colspan="9" class="empty-row">
+                  Nenhuma decisão registrada neste mês.
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
 
-      <div class="table-wrap">
-        <table class="audit-table">
-          <thead>
-            <tr>
-              <th>Data da decisão</th>
-              <th>Cliente</th>
-              <th>Telefone</th>
-              <th>Barbeiro</th>
-              <th>Serviço</th>
-              <th>Data do atendimento</th>
-              <th>Horário</th>
-              <th>Status</th>
-              <th>Última atualização</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let a of pagedHistory" class="audit-row" (click)="openDetail(a)">
-              <td>{{ decisionDate(a) }}</td>
-              <td>{{ a.customer_name }}</td>
-              <td>{{ a.customer_phone }}</td>
-              <td>{{ a.barber_name }}</td>
-              <td>{{ a.service_name }}</td>
-              <td>{{ dateBR(a.appointment_date) }}</td>
-              <td>{{ hhmm(a.start_time) }}</td>
-              <td>
-                <span class="status-badge" [class]="'st-' + a.status">
-                  {{ statusLabels[a.status] }}
-                </span>
-              </td>
-              <td>{{ fmtDateTime(a.updated_at) }}</td>
-            </tr>
-            <tr *ngIf="historyFiltered.length === 0">
-              <td colspan="9" class="empty-row">
-                Nenhuma decisão registrada neste mês.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- PAGINAÇÃO -->
-      <div class="pagination" *ngIf="historyFiltered.length > 0">
-        <button type="button" class="btn btn-ghost btn-sm" [disabled]="histPage === 1" (click)="prevPage()">
-          &lt;&lt; Anterior
-        </button>
-        <span class="page-info">Página {{ histPage }} de {{ totalPages }}</span>
-        <button type="button" class="btn btn-ghost btn-sm" [disabled]="histPage === totalPages" (click)="nextPage()">
-          Próxima &gt;&gt;
-        </button>
-      </div>
+        <!-- PAGINAÇÃO (apenas estado local; não navega nem rola a tela) -->
+        <div class="pagination" *ngIf="historyFiltered.length > 0">
+          <button type="button" class="btn btn-ghost btn-sm" [disabled]="histPage === 1" (click)="prevPage($event)">
+            &lt;&lt; Anterior
+          </button>
+          <span class="page-info">Página {{ histPage }} de {{ totalPages }}</span>
+          <button type="button" class="btn btn-ghost btn-sm" [disabled]="histPage === totalPages" (click)="nextPage($event)">
+            Próxima &gt;&gt;
+          </button>
+        </div>
+      </ng-container>
     </section>
   </div>
 </div>

@@ -32,11 +32,12 @@
   border-radius: var(--radius);
   color: var(--color-white);
   cursor: pointer;
-  transition: var(--transition);
+  /* anima só transform/borda (propriedades leves) */
+  transition: transform 160ms ease, border-color 160ms ease;
 }
 
 .choice-card:hover {
-  transform: translateY(-6px);
+  transform: translate3d(0, -6px, 0);
   border-color: var(--color-gold);
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
 }

@@ -108,18 +108,18 @@
 }
 
 .step-content {
-  animation: bkFadeSlideIn 180ms ease-out;
+  animation: bkFadeSlideIn 170ms ease-out;
   will-change: transform, opacity;
 }
 
 @keyframes bkFadeSlideIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translate3d(0, 6px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 

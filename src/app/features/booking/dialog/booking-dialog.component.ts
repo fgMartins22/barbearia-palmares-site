@@ -33,10 +33,10 @@ import { BookingStepperComponent } from '../booking-stepper.component';
     ]),
     trigger('panel', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(12px) scale(0.985)' }),
+        style({ opacity: 0, transform: 'translate3d(0, 8px, 0) scale(0.98)' }),
         animate(
-          '200ms ease-out',
-          style({ opacity: 1, transform: 'translateY(0) scale(1)' })
+          '180ms ease-out',
+          style({ opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' })
         ),
       ]),
     ]),

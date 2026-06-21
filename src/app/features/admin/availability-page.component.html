@@ -21,8 +21,12 @@
   <ng-container *ngIf="selectedBarber">
     <h2 class="avail-subtitle">Disponibilidade — {{ selectedBarber.name }}</h2>
 
-    <!-- INDICADORES -->
-    <div class="indicators">
+    <!-- INDICADORES (skeleton ao trocar de barbeiro) -->
+    <div class="indicators" *ngIf="isLoadingBarber">
+      <div class="skeleton sk-ind" *ngFor="let s of [1,2,3,4]"></div>
+    </div>
+
+    <div class="indicators" *ngIf="!isLoadingBarber">
       <div class="indicator">
         <span class="ind-value green">{{ availableToday }}</span>
         <span class="ind-label">Disponíveis hoje</span>
@@ -74,11 +78,15 @@
     </div>
 
     <!-- ESTADO -->
-    <p *ngIf="loading" class="state-msg">Carregando horários...</p>
     <p *ngIf="errorMessage" class="state-msg error">{{ errorMessage }}</p>
 
+    <!-- GRADE — SKELETON -->
+    <div class="slots-grid" *ngIf="isLoadingBarber || loading">
+      <div class="skeleton sk-slot" *ngFor="let s of skeletonSlots"></div>
+    </div>
+
     <!-- GRADE DE HORÁRIOS -->
-    <div class="slots-grid" *ngIf="!loading">
+    <div class="slots-grid" *ngIf="!isLoadingBarber && !loading">
       <p *ngIf="filteredSlots.length === 0" class="state-msg">
         Nenhum horário para exibir com este filtro.
       </p>

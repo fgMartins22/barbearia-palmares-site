@@ -6,10 +6,8 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  /* Backdrop leve: blur reduzido para não pesar no FPS durante a animação */
-  background: rgba(0, 0, 0, 0.78);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  /* Sem blur no backdrop: melhora muito o FPS durante a animação de abertura */
+  background: rgba(0, 0, 0, 0.72);
   overflow-y: auto;
 }
 

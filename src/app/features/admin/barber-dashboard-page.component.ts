@@ -57,7 +57,7 @@ export class BarberDashboardPageComponent implements OnInit {
 
   // Dados
   monthAppointments: Appointment[] = [];
-  loading = false;
+  isLoadingMonth = false;
   errorMessage = '';
 
   // Filtros (agenda + métricas)
@@ -65,9 +65,7 @@ export class BarberDashboardPageComponent implements OnInit {
   filterStatus: 'all' | AppointmentStatus = 'all';
   search = '';
 
-  // Histórico (seção própria, com mês/ano e paginação)
-  histYear!: number;
-  histMonth!: number;
+  // Histórico — sempre sincronizado com o mês/ano da agenda
   historyAll: Appointment[] = [];
   histPage = 1;
   readonly pageSize = 5;
@@ -87,7 +85,6 @@ export class BarberDashboardPageComponent implements OnInit {
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
   ];
-  yearOptions: number[] = [];
 
   dateBR = formatDateBR;
   price = formatPrice;
@@ -111,16 +108,27 @@ export class BarberDashboardPageComponent implements OnInit {
     const now = new Date();
     this.year = now.getFullYear();
     this.month = now.getMonth();
-    this.histYear = this.year;
-    this.histMonth = this.month;
-    this.yearOptions = [0, 1, 2, 3].map((i) => this.year - i);
-    this.loadMonth();
-    this.loadHistory();
+    this.loadMonthData();
   }
 
   // ---------------- carregamento ----------------
+  /** Helper de delay visual (UX dos skeletons). */
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  /**
+   * Carrega o mês inteiro (agenda + métricas + histórico) com skeleton e um
+   * delay visual mínimo de 2s. Usado ao trocar de mês / abrir o painel.
+   */
+  private async loadMonthData(): Promise<void> {
+    this.isLoadingMonth = true;
+    this.histPage = 1;
+    await Promise.all([this.loadMonth(), this.loadHistory(), this.delay(800)]);
+    this.isLoadingMonth = false;
+  }
+
   async loadMonth(): Promise<void> {
-    this.loading = true;
     this.errorMessage = '';
     try {
       this.monthAppointments = await this.admin.getAppointmentsByMonth(
@@ -132,26 +140,23 @@ export class BarberDashboardPageComponent implements OnInit {
       this.errorMessage =
         'Não foi possível carregar os agendamentos. Verifique a conexão/configuração.';
       this.monthAppointments = [];
-    } finally {
-      this.loading = false;
     }
   }
 
+  /** Histórico sempre do mesmo mês/ano da agenda. */
   async loadHistory(): Promise<void> {
     try {
-      this.historyAll = await this.admin.getAuditHistory(
-        this.histYear,
-        this.histMonth
-      );
-      this.histPage = 1;
+      this.historyAll = await this.admin.getAuditHistory(this.year, this.month);
     } catch (e) {
       console.error(e);
       this.historyAll = [];
     }
   }
 
+  /** Recarrega os dados após uma ação (sem o delay visual). */
   private async refresh(): Promise<void> {
     await Promise.all([this.loadMonth(), this.loadHistory()]);
+    this.histPage = 1;
   }
 
   // ---------------- navegação de mês (agenda) ----------------
@@ -159,7 +164,7 @@ export class BarberDashboardPageComponent implements OnInit {
     const now = new Date();
     this.year = now.getFullYear();
     this.month = now.getMonth();
-    this.loadMonth();
+    this.loadMonthData();
   }
 
   prevMonth(): void {
@@ -169,7 +174,7 @@ export class BarberDashboardPageComponent implements OnInit {
     } else {
       this.month--;
     }
-    this.loadMonth();
+    this.loadMonthData();
   }
 
   nextMonth(): void {
@@ -179,7 +184,7 @@ export class BarberDashboardPageComponent implements OnInit {
     } else {
       this.month++;
     }
-    this.loadMonth();
+    this.loadMonthData();
   }
 
   get monthLabel(): string {
@@ -300,16 +305,14 @@ export class BarberDashboardPageComponent implements OnInit {
     return this.historyFiltered.slice(start, start + this.pageSize);
   }
 
-  prevPage(): void {
+  prevPage(event?: Event): void {
+    event?.preventDefault();
     if (this.histPage > 1) this.histPage--;
   }
 
-  nextPage(): void {
+  nextPage(event?: Event): void {
+    event?.preventDefault();
     if (this.histPage < this.totalPages) this.histPage++;
-  }
-
-  onHistoryFilterChange(): void {
-    this.loadHistory();
   }
 
   // ---------------- criação manual ----------------

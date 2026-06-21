@@ -516,3 +516,41 @@
 .btn-delete-confirm:hover:not(:disabled) {
   background: #dc2f2f;
 }
+
+/* ---------------- SKELETONS ---------------- */
+.sk-metric {
+  height: 80px;
+}
+
+.sk-title {
+  height: 30px;
+  width: 200px;
+  margin-bottom: 16px;
+}
+
+.sk-calendar {
+  height: 460px;
+}
+
+.history-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sk-row {
+  height: 46px;
+}
+
+/* Indicador de período do histórico (segue a agenda) */
+.audit-period {
+  color: var(--color-gold);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 760px) {
+  .sk-calendar {
+    height: 280px;
+  }
+}
