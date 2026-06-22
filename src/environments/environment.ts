@@ -7,6 +7,8 @@
    ========================================================= */
 export const environment = {
   production: false,
+  // Domínio oficial (fonte única para SEO). Placeholder até definição do domínio real.
+  siteUrl: 'https://barbeariapalmares.com.br',
   supabaseUrl: 'https://urghwjhjxfscgwlyuaon.supabase.co',
   supabaseAnonKey: 'sb_publishable_AX7HL89dHrd1d1jjTRoEQw_hPSYBhnO',
 };

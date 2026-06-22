@@ -23,6 +23,17 @@
         <svg lucideIcon="clock" class="icon"></svg> Disponibilidade
       </button>
     </nav>
+
+    <!-- LOGOUT -->
+    <button
+      type="button"
+      class="nav-item logout"
+      [disabled]="loggingOut"
+      (click)="logout()"
+    >
+      <svg lucideIcon="log-out" class="icon"></svg>
+      {{ loggingOut ? 'Saindo...' : 'Sair' }}
+    </button>
   </aside>
 
   <!-- CONTEÚDO -->

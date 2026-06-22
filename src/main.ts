@@ -29,6 +29,7 @@ import {
   LucideRotateCcw,
   LucideBan,
   LucideCalendarOff,
+  LucideLogOut,
 } from '@lucide/angular';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
@@ -76,7 +77,8 @@ bootstrapApplication(AppComponent, {
       LucideCheckCheck,
       LucideRotateCcw,
       LucideBan,
-      LucideCalendarOff
+      LucideCalendarOff,
+      LucideLogOut
     ),
   ],
 }).catch((err) => console.error(err));

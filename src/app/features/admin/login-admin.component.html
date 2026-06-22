@@ -1,0 +1,41 @@
+<div class="login">
+  <form class="login-card" (ngSubmit)="submit()" novalidate>
+    <div class="login-brand">
+      <img src="assets/images/logo.png" alt="Barbearia Palmares" />
+      <span>Barbearia Palmares</span>
+    </div>
+
+    <h1 class="login-title">Painel administrativo</h1>
+    <p class="login-sub">Acesso restrito aos barbeiros.</p>
+
+    <label class="field">
+      <span>Email</span>
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        autocomplete="username"
+        placeholder="seu@email.com"
+        [disabled]="loading"
+      />
+    </label>
+
+    <label class="field">
+      <span>Senha</span>
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        autocomplete="current-password"
+        placeholder="••••••••"
+        [disabled]="loading"
+      />
+    </label>
+
+    <p *ngIf="errorMessage" class="login-error">{{ errorMessage }}</p>
+
+    <button type="submit" class="btn btn-primary login-btn" [disabled]="!canSubmit || loading">
+      {{ loading ? 'Entrando...' : 'Entrar' }}
+    </button>
+  </form>
+</div>

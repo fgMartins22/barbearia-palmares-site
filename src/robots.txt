@@ -1,0 +1,9 @@
+# Domínio placeholder. Fonte única: environment.siteUrl. Atualizar ao definir o domínio real.
+User-agent: *
+Allow: /
+
+# Área administrativa não deve ser indexada
+Disallow: /login-admin
+Disallow: /painel-palmares-agenda-2026
+
+Sitemap: https://barbeariapalmares.com.br/sitemap.xml

@@ -1,25 +1,99 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <title>Barbearia Palmares | Zona Norte de Porto Alegre</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
+      SEO: domínio placeholder. Fonte única no Angular: environment.siteUrl
+      (aplicado em runtime por SeoService). Ao definir o domínio real, atualize
+      environment.siteUrl e os valores estáticos abaixo, robots.txt e sitemap.xml.
+    -->
+    <title>Barbearia Palmares | Corte, Barba e Estilo em Porto Alegre</title>
     <meta
       name="description"
-      content="Barbearia Palmares - Estilo, tradição e cuidado em cada corte. Atendimento de qualidade na Zona Norte de Porto Alegre."
+      content="Barbearia Palmares em Porto Alegre. Corte masculino, barba, acabamento e atendimento profissional. Agende seu horário online com praticidade."
+    />
+    <meta
+      name="keywords"
+      content="barbearia palmares, barbearia porto alegre, barbearia zona norte, barbearia cristo redentor, corte masculino porto alegre, barba porto alegre, barbearia porto alegre agendamento, barbearia palmares porto alegre"
+    />
+    <meta name="author" content="Barbearia Palmares" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0c0c0c" />
+    <link rel="canonical" href="https://barbeariapalmares.com.br/" />
+
+    <!-- Favicon (logo oficial) -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="apple-touch-icon" href="assets/images/logo.png" />
+
+    <!-- Open Graph (preview em WhatsApp, Facebook, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Barbearia Palmares" />
+    <meta property="og:title" content="Barbearia Palmares" />
+    <meta property="og:description" content="O corte é detalhe, o bom é o café." />
+    <meta property="og:url" content="https://barbeariapalmares.com.br/" />
+    <meta
+      property="og:image"
+      content="https://barbeariapalmares.com.br/assets/images/logo.png"
+    />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Barbearia Palmares" />
+    <meta
+      name="twitter:description"
+      content="O corte é detalhe, o bom é o café."
+    />
+    <meta
+      name="twitter:image"
+      content="https://barbeariapalmares.com.br/assets/images/logo.png"
     />
 
-    <!-- Favicon: usa a logo oficial da barbearia -->
-    <link rel="icon" type="image/png" href="assets/images/logo.png" />
-
-    <!-- Fontes Google: ajuste aqui se quiser trocar a tipografia -->
+    <!-- Tipografia -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Dados estruturados (Schema.org BarberShop) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BarberShop",
+        "name": "Barbearia Palmares",
+        "image": "https://barbeariapalmares.com.br/assets/images/logo.png",
+        "url": "https://barbeariapalmares.com.br/",
+        "telephone": "+5551984217009",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Travessa Américo Silveira, 231",
+          "addressLocality": "Porto Alegre",
+          "addressRegion": "RS",
+          "postalCode": "91360-000",
+          "addressCountry": "BR"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "opens": "09:00",
+            "closes": "19:30"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <app-root></app-root>

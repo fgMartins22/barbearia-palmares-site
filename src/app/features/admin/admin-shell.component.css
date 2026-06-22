@@ -76,6 +76,22 @@
   color: currentColor;
 }
 
+/* Logout fica no rodapé do menu lateral */
+.nav-item.logout {
+  margin-top: auto;
+  color: var(--color-gray);
+}
+
+.nav-item.logout:hover {
+  color: #f87171;
+  background: rgba(239, 111, 111, 0.1);
+}
+
+.nav-item.logout:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
 /* CONTEÚDO (cada página traz seu próprio fundo/padding) */
 .shell-content {
   flex: 1 1 auto;
